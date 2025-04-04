@@ -6,10 +6,14 @@ vllm:
   apiKey: 
 replicaCount: 1
 
+tavily:
+  enabled: false
+  api_key: ""
+
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
   repository: docker.io/llamastack/distribution-remote-vllm
-  tag: 0.1.7
+  tag: 0.1.8
   # This sets the pull policy for images.
   pullPolicy: Always
 
@@ -70,7 +74,7 @@ chatui:
     url: http://llama-stack:5001
   replicaCount: 1
   image:
-    repository: quay.io/hayesphilip/mcp-chat-ui
+    repository: quay.io/jland/mcp-chat-ui
     tag: latest
     # This sets the pull policy for images.
     pullPolicy: Always
@@ -153,6 +157,44 @@ postgresql:
   username: claimdb
   password: claimdb
   database: claimdb
+
+
+mcpKubernetes:
+  replicaCount: 1
+  image:
+    repository: quay.io/jland/mcp-server-kubernetes
+    tag: latest
+    # This sets the pull policy for images.
+    pullPolicy: Always
+
+  service:
+    type: ClusterIP
+    port: 3001
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 500Mi
+    requests:
+      cpu: 100m
+      memory: 500Mi
+
+  # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 3001
+  readinessProbe:
+    httpGet:
+      path: /
+      port: 3001
+  startupProbe:
+    httpGet:
+      path: /
+      port: 3001
+    initialDelaySeconds: 5
+    periodSeconds: 2
+    failureThreshold: 16
 
 
 playground:

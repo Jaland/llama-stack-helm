@@ -1,0 +1,15 @@
+{{- with .Values.mcpKubernetes }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mcp-server-kube.fullname" $ }}
+spec:
+  type: {{ .service.type }}
+  ports:
+    - port: {{ .service.port }}
+      targetPort: http
+      protocol: TCP
+      name: mcp-server-kube
+  selector:
+    {{- include "mcp-server-kube.selectorLabels" $ | nindent 4 }}
+{{- end }}

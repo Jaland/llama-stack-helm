@@ -69,11 +69,19 @@ export LLAMA_STACK_URL=$(oc get route llama-stack -o jsonpath='{.spec.host}')
  https://$LLAMA_STACK_URL/v1/toolgroups 
  ```
 
+```
+ curl -X POST -H "Content-Type: application/json" \
+--data \
+'{ "provider_id" : "model-context-protocol", "toolgroup_id" : "mcp::kube-service", "mcp_endpoint" : { "uri" : "http://llama-stack-mcp-kubernetes:3001/sse"}}' \
+ https://$LLAMA_STACK_URL/v1/toolgroups 
+ ```
+
 Check the status of the toolgroup:
 
 `llama-stack-client configure --endpoint  https://$LLAMA_STACK_URL --api-key none`
 
 `llama-stack-client toolgroups get mcp::orders-service`
+`llama-stack-client toolgroups get mcp::kube-service`
 
 You should see:
 

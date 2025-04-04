@@ -51,6 +51,11 @@ spec:
               value: {{ .Values.vllm.inferenceModel | quote }}
             - name: LLAMA_STACK_PORT
               value: {{ .Values.service.port | quote }}
+            {{- if $.Values.tavily.enabled }}
+            - name: TAVILY_SEARCH_API_KEY
+              value: {{ $.Values.tavily.api_key | quote }}
+            {{- end }}
+          livenessProbe:
           livenessProbe:
             {{- tpl (toYaml .Values.livenessProbe) $ | nindent 12 }}
           readinessProbe:
