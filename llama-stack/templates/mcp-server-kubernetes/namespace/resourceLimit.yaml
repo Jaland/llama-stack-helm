@@ -1,0 +1,20 @@
+{{- with .Values.mcpKubernetes }}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+  namespace: {{ .childNamespace }}
+spec:
+  {{- if .resourceQuota}}
+  {{ toYaml .resourceQuota | nindent 2 }}
+  {{- else }}
+  hard:
+    pods: "4" 
+    requests.cpu: "3" 
+    requests.memory: 10Gi 
+    requests.ephemeral-storage: 20Gi 
+    limits.cpu: "6" 
+    limits.memory: 20Gi 
+    limits.ephemeral-storage: 40Gi 
+  {{- end }}
+{{- end }}

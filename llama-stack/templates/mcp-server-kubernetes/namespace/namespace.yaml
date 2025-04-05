@@ -1,0 +1,11 @@
+{{- with .Values.mcpKubernetes }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .childNamespace }}
+  annotations:
+    openshift.io/description: "This is a namespace controlled by an AI Agent living on the Llama Stack in the {{ $.Release.Namespace }} namespace."
+  labels:
+    app: llama-stack
+    parent: {{ $.Release.Namespace | quote }}
+{{- end }}

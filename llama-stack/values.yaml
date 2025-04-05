@@ -161,6 +161,7 @@ postgresql:
 
 mcpKubernetes:
   replicaCount: 1
+  childNamespace: llama-stack-agent
   image:
     repository: quay.io/jland/mcp-server-kubernetes
     tag: latest
